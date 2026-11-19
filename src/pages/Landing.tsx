@@ -7,10 +7,8 @@ import { Icon } from "@astryxdesign/core/Icon";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { ThemeToggle } from "../components/ThemeMode";
+import { PLAY_STORE_URL } from "../share";
 import { facts } from "../data/facts";
-
-const PLAY_STORE_URL =
-  "https://play.google.com/store/apps/details?id=com.epakameni.funda&hl=en_GB";
 
 const FEATURES = [
   { title: "Wisdom", text: "Proverbs, idioms and riddles from the culture.", image: "/img/adio.jpg" },

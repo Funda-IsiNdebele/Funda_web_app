@@ -3,6 +3,7 @@ import { Button } from "@astryxdesign/core/Button";
 import { Navigate, useLocation } from "react-router-dom";
 import { colors } from "../colors";
 import { Screen } from "../components/ui";
+import { shareText } from "../share";
 import type { SurnameDetailState } from "../types";
 
 export default function SurnameDetail() {
@@ -12,16 +13,10 @@ export default function SurnameDetail() {
 
   async function share() {
     if (!state) return;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: state.title, text: state.desc });
-        return;
-      } catch {
-        return; // cancelled
-      }
-    }
-    await navigator.clipboard?.writeText(state.desc);
-    setStatus("Copied to clipboard");
+    const result = await shareText(state.title, state.desc);
+    if (result === "copied") setStatus("Copied to clipboard");
+    else if (result === "failed") setStatus("Couldn't share or copy");
+    else return;
     setTimeout(() => setStatus(""), 2000);
   }
 

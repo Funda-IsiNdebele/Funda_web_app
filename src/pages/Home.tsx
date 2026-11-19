@@ -9,6 +9,7 @@ import { VStack } from "@astryxdesign/core/VStack";
 import Drawer from "../components/Drawer";
 import LearnCard from "../components/LearnCard";
 import { ThemeToggle } from "../components/ThemeMode";
+import { PLAY_STORE_URL } from "../share";
 import { useInstall } from "../components/useInstall";
 
 const ITEMS = [
@@ -19,9 +20,6 @@ const ITEMS = [
   { title: "Basics", hint: "Numbers, days, months", to: "/basics", image: "/img/basic.png" },
   { title: "History", hint: "Places, kings, names", to: "/history", image: "/img/his.png" },
 ];
-
-const PLAY_STORE_URL =
-  "https://play.google.com/store/apps/details?id=com.epakameni.funda&hl=en_GB";
 
 export default function Home() {
   const [open, setOpen] = useState(false);

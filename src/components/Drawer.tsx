@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@astryxdesign/core/Button";
 import { Divider } from "@astryxdesign/core/Divider";
@@ -5,6 +6,7 @@ import { Drawer as AxDrawer } from "@astryxdesign/core/Drawer";
 import { Icon } from "@astryxdesign/core/Icon";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import { PLAY_STORE_URL, shareText } from "../share";
 
 const EXTERNAL = [
   {
@@ -19,22 +21,20 @@ const EXTERNAL = [
   },
 ];
 
-const SHARE_URL = "https://play.google.com/store/apps/details?id=com.epakameni.funda";
-
 export default function Drawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const navigate = useNavigate();
+  const [status, setStatus] = useState("");
 
   async function share() {
-    const text = `Download Funda isiNdebele app here: ${SHARE_URL}`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "IsiNdebele", text });
-      } catch {
-        /* user cancelled */
-      }
-    } else {
-      await navigator.clipboard?.writeText(text);
-    }
+    // shareText appends the web app link; the Android link is added for phone users.
+    const result = await shareText(
+      "Funda IsiNdebele",
+      `Learn IsiNdebele with the Funda app.\nAndroid: ${PLAY_STORE_URL}`,
+    );
+    if (result === "copied") setStatus("Link copied");
+    else if (result === "failed") setStatus("Couldn't share or copy");
+    else return;
+    setTimeout(() => setStatus(""), 2000);
   }
 
   return (
@@ -63,6 +63,7 @@ export default function Drawer({ open, onClose }: { open: boolean; onClose: () =
           }}
         />
         <Button label="Share App" variant="ghost" icon={<Icon icon="copy" />} onClick={share} />
+        {status && <Text type="supporting">{status}</Text>}
         <Divider />
         <Text type="supporting">Some Of The Sources:</Text>
         {EXTERNAL.map((e) => (
