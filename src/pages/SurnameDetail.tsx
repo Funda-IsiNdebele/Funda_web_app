@@ -13,7 +13,11 @@ export default function SurnameDetail() {
 
   async function share() {
     if (!state) return;
-    const result = await shareText(state.title, state.desc);
+    // Link first, then the surname and its praise text.
+    const result = await shareText(state.title, state.desc, {
+      linkPosition: "top",
+      includeTitle: true,
+    });
     if (result === "copied") setStatus("Copied to clipboard");
     else if (result === "failed") setStatus("Couldn't share or copy");
     else return;
