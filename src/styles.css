@@ -41,12 +41,17 @@ button { font: inherit; cursor: pointer; }
 }
 
 /* ---------- Header ---------- */
+/* Fixed (not sticky) so the title stays on screen in every browser and
+   installed-PWA mode; the content below is pushed down by the same height. */
 .appbar {
-  position: sticky; top: 0; z-index: 5;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 5;
+  width: 100%; max-width: 980px; margin: 0 auto;
   display: flex; align-items: center; gap: 10px;
-  min-height: 64px; padding: 8px 16px 20px;
+  height: calc(68px + env(safe-area-inset-top, 0px));
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 16px 20px;
   color: #fff; background: var(--navy);
 }
+.appbar + .content { padding-top: calc(68px + 16px + env(safe-area-inset-top, 0px)); }
 .appbar::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 16px;
   background: var(--band) repeat-x left bottom;
