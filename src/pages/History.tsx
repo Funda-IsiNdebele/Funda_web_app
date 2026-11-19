@@ -1,6 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import { getHistory, getKings } from "../api";
 import { colors } from "../colors";
+import { formatPairs, ShareFab } from "../components/Share";
 import {
   ErrorMessage,
   MenuCard,
@@ -62,17 +63,29 @@ export function HistoryView() {
       ) : error || !data ? (
         <ErrorMessage />
       ) : (
-        <PairList items={data.map((d) => ({ nd: d.nameE, en: d.nameNd }))} />
+        <>
+          <PairList items={data.map((d) => ({ nd: d.nameE, en: d.nameNd }))} />
+          <ShareFab
+            title={title}
+            body={() => formatPairs(data.map((d) => ({ nd: d.nameE, en: d.nameNd })))}
+          />
+        </>
       )}
     </Screen>
   );
 }
 
-function KingsList({ group }: { group: string }) {
+function KingsList({ group, name }: { group: string; name: string }) {
   const { loading, error, data } = useAsync(() => getKings(group), [group]);
   if (loading) return <Spinner />;
   if (error || !data) return <ErrorMessage />;
-  return <PairList items={data.map((k) => ({ nd: k.king, en: k.desc }))} />;
+  const items = data.map((k) => ({ nd: k.king, en: k.desc }));
+  return (
+    <>
+      <PairList items={items} />
+      <ShareFab title={`Iingwenyama zakwa${name} – ${name} Kings`} body={() => formatPairs(items)} />
+    </>
+  );
 }
 
 export function Kings() {
@@ -81,8 +94,8 @@ export function Kings() {
       <Tabs
         color={colors.history}
         tabs={[
-          { label: "Nzunza", content: <KingsList group="NzunzaKings" /> },
-          { label: "Manala", content: <KingsList group="ManalaKings" /> },
+          { label: "Nzunza", content: <KingsList group="NzunzaKings" name="Nzunza" /> },
+          { label: "Manala", content: <KingsList group="ManalaKings" name="Manala" /> },
         ]}
       />
     </Screen>
@@ -98,6 +111,12 @@ export function Intanga() {
           { label: "Nzunza", content: <PairList items={intangaNzunza} /> },
           { label: "Manala", content: <PairList items={intangaManala} /> },
         ]}
+      />
+      <ShareFab
+        title="Intanga zamasokana – initiation group names"
+        body={() =>
+          `Nzunza\n${formatPairs(intangaNzunza)}\n\nManala\n${formatPairs(intangaManala)}`
+        }
       />
     </Screen>
   );
@@ -117,6 +136,7 @@ export function NameList() {
   return (
     <Screen title={list.title} color={colors.blueGrey}>
       <PairList items={list.names.map((n) => ({ nd: n }))} />
+      <ShareFab title={list.title} body={() => list.names.join("\n")} />
     </Screen>
   );
 }

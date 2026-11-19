@@ -2,6 +2,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { colors } from "../colors";
 import { MenuCard,
   MenuGrid, PairList, Screen } from "../components/ui";
+import { formatPairs, ShareFab } from "../components/Share";
 import { days, directions, months, numbers, seasons, time } from "../data/database";
 
 interface Category {
@@ -47,6 +48,10 @@ export function BasicsList() {
   return (
     <Screen title={category.en} color={colors.blueGrey}>
       <PairList items={category.items} />
+      <ShareFab
+        title={`${category.nd} – ${category.en}`}
+        body={() => formatPairs(category.items)}
+      />
     </Screen>
   );
 }

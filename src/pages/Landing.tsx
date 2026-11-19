@@ -6,6 +6,7 @@ import { HStack } from "@astryxdesign/core/HStack";
 import { Icon } from "@astryxdesign/core/Icon";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import InstallButton from "../components/InstallButton";
 import { ThemeToggle } from "../components/ThemeMode";
 import { PLAY_STORE_URL } from "../share";
 import { facts } from "../data/facts";
@@ -33,6 +34,7 @@ export default function Landing() {
     <div className="landing">
       <header className="landing-hero">
         <div className="landing-toggle">
+          <InstallButton />
           <ThemeToggle />
         </div>
         <img className="landing-icon" src="/icon-192.png" alt="Funda IsiNdebele app icon" />

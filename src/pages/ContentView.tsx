@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getContent } from "../api";
 import { colors } from "../colors";
+import { formatPairs, ShareFab } from "../components/Share";
 import { ErrorMessage, Screen, SearchBox, Spinner, useAsync } from "../components/ui";
 import type { ImageViewState } from "../types";
 
@@ -49,6 +50,10 @@ export default function ContentView() {
               );
             })}
           </ul>
+          <ShareFab
+            title={category}
+            body={() => formatPairs(rows.map((d) => ({ nd: d.nameNd, en: d.nameE })))}
+          />
         </>
       )}
     </Screen>

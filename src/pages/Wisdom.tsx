@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Button } from "@astryxdesign/core/Button";
 import { getWisdom } from "../api";
 import { colors } from "../colors";
+import { ShareLink } from "../components/Share";
 import { ErrorMessage, Screen, Spinner, Tabs, useAsync } from "../components/ui";
 
 /**
  * In the API data the `isindebele` field holds the proverb/idiom/riddle (the question)
  * and the `english` field holds its meaning or answer (also written in IsiNdebele).
  */
-function WisdomList({ kind }: { kind: string }) {
+function WisdomList({ kind, title }: { kind: string; title: string }) {
   const { loading, error, data } = useAsync(() => getWisdom(kind), [kind]);
   const [shown, setShown] = useState<Set<number>>(new Set());
 
@@ -49,14 +50,17 @@ function WisdomList({ kind }: { kind: string }) {
                   {item.nameE}
                 </p>
               )}
-              <button
-                className="wisdom-toggle"
-                aria-expanded={open}
-                aria-controls={`${kind}-answer-${i}`}
-                onClick={() => toggle(i)}
-              >
-                {open ? "Hide answer ▴" : "Show answer ▾"}
-              </button>
+              <div className="wisdom-actions">
+                <button
+                  className="wisdom-toggle"
+                  aria-expanded={open}
+                  aria-controls={`${kind}-answer-${i}`}
+                  onClick={() => toggle(i)}
+                >
+                  {open ? "Hide answer ▴" : "Show answer ▾"}
+                </button>
+                <ShareLink title={title} body={`${item.nameNd}\n\nAnswer: ${item.nameE}`} />
+              </div>
             </li>
           );
         })}
@@ -71,9 +75,21 @@ export default function Wisdom() {
       <Tabs
         color={colors.wisdom}
         tabs={[
-          { label: "Proverbs", hint: "Izaga", content: <WisdomList kind="proverbs" /> },
-          { label: "Idioms", hint: "Izitjho", content: <WisdomList kind="idioms" /> },
-          { label: "Riddles", hint: "Inrarejo", content: <WisdomList kind="riddles" /> },
+          {
+            label: "Proverbs",
+            hint: "Izaga",
+            content: <WisdomList kind="proverbs" title="Isaga – Proverb" />,
+          },
+          {
+            label: "Idioms",
+            hint: "Izitjho",
+            content: <WisdomList kind="idioms" title="Isitjho – Idiom" />,
+          },
+          {
+            label: "Riddles",
+            hint: "Inrarejo",
+            content: <WisdomList kind="riddles" title="Isirarejo – Riddle" />,
+          },
         ]}
       />
     </Screen>

@@ -1,6 +1,7 @@
 import { colors } from "../colors";
 import { MenuCard,
   MenuGrid, PairList, Screen } from "../components/ui";
+import { formatPairs, ShareFab } from "../components/Share";
 import { colours, planets } from "../data/database";
 
 const ITEMS = [
@@ -36,6 +37,7 @@ export function Planets() {
   return (
     <Screen title="Planets" color={colors.dictionary}>
       <PairList items={planets.map((p) => ({ nd: p.nd, en: p.en, image: p.image }))} />
+      <ShareFab title="Amaphasi – Planets" body={() => formatPairs(planets)} />
     </Screen>
   );
 }
@@ -54,6 +56,7 @@ export function Colours() {
           </li>
         ))}
       </ul>
+      <ShareFab title="Imibala – Colours" body={() => formatPairs(colours)} />
     </Screen>
   );
 }

@@ -9,8 +9,8 @@ import { VStack } from "@astryxdesign/core/VStack";
 import Drawer from "../components/Drawer";
 import LearnCard from "../components/LearnCard";
 import { ThemeToggle } from "../components/ThemeMode";
+import InstallButton from "../components/InstallButton";
 import { PLAY_STORE_URL } from "../share";
-import { useInstall } from "../components/useInstall";
 
 const ITEMS = [
   { title: "Wisdom", hint: "Proverbs & riddles", to: "/wisdom", image: "/img/adio.jpg" },
@@ -24,7 +24,6 @@ const ITEMS = [
 export default function Home() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { canInstall, install } = useInstall();
   return (
     <div className="home">
       <header className="hero">
@@ -38,9 +37,7 @@ export default function Home() {
           <p className="hero-sub">What would you like to learn today?</p>
         </div>
         <div className="hero-toggle">
-          {canInstall && (
-            <Button label="Install app" variant="primary" size="sm" onClick={install} />
-          )}
+          <InstallButton />
           <ThemeToggle />
         </div>
       </header>

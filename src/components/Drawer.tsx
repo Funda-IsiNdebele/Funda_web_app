@@ -6,7 +6,7 @@ import { Drawer as AxDrawer } from "@astryxdesign/core/Drawer";
 import { Icon } from "@astryxdesign/core/Icon";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
-import { PLAY_STORE_URL, shareText } from "../share";
+import { shareText } from "../share";
 
 const EXTERNAL = [
   {
@@ -26,11 +26,8 @@ export default function Drawer({ open, onClose }: { open: boolean; onClose: () =
   const [status, setStatus] = useState("");
 
   async function share() {
-    // shareText appends the web app link; the Android link is added for phone users.
-    const result = await shareText(
-      "Funda IsiNdebele",
-      `Learn IsiNdebele with the Funda app.\nAndroid: ${PLAY_STORE_URL}`,
-    );
+    // Only the web app link (no body text).
+    const result = await shareText("Funda IsiNdebele", "");
     if (result === "copied") setStatus("Link copied");
     else if (result === "failed") setStatus("Couldn't share or copy");
     else return;

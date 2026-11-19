@@ -1,4 +1,5 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { ShareFab } from "../components/Share";
 import type { ImageViewState } from "../types";
 
 export default function ImageView() {
@@ -16,6 +17,10 @@ export default function ImageView() {
         <span className="caption-nd">{state.subtitle}</span>
         {state.title && <span className="caption-en">{state.title}</span>}
       </div>
+      <ShareFab
+        title={state.subtitle}
+        body={state.title ? `${state.subtitle} – ${state.title}` : state.subtitle}
+      />
     </div>
   );
 }
